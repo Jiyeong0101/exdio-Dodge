@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+    public float speed = 5f;
+    private Rigidbody playerRigidbody;
+
+    void Start()
+    {
+        playerRigidbody = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        // 방법1: 위치값 자체를 조정해준다.
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    transform.Translate(0f, 0f, speed * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    transform.Translate(0f, 0f, -speed * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    transform.Translate(speed * Time.deltaTime, 0f, 0f);
+        //}
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    transform.Translate(-speed * Time.deltaTime, 0f, 0f);
+        //}
+
+        // 방법2: 입력받는 방향으로 물리적인 힘을 가해서 이동시킨다.
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    playerRigidbody.AddForce(0f, 0f, speed);
+        //}
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    playerRigidbody.AddForce(0f, 0f, -speed);
+        //}
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    playerRigidbody.AddForce(speed, 0f, 0f);
+        //}
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    playerRigidbody.AddForce(-speed, 0f, 0f);
+        //}
+
+        //방법3: 입력에 따라 새로운 속도를 계산하여 변경해준다.
+        float xInput = Input.GetAxis("Horizontal");
+        float zInput = Input.GetAxis("Vertical");
+
+        float xSpeed = xInput * speed;
+        float zSpeed = zInput * speed;
+
+        Vector3 newVelocity = new Vector3(xSpeed, 0f, zSpeed);
+        playerRigidbody.velocity = newVelocity;
+    }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
+    }
+}
